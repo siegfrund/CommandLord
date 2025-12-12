@@ -29,22 +29,19 @@ namespace CommandLord
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
         private List<string> allFoundCommands = new List<string>();
-        private HashSet<string> manuallyAddedCommands = new HashSet<string>(); // Add List Found ile eklenenler
+        private HashSet<string> manuallyAddedCommands = new HashSet<string>();
 
         public CommandLord()
         {
             InitializeComponent();
 
-            // Çoklu seçim modunu aktifleþtir - TÜM LISTBOXLAR ÝÇÝN
             listBoxFound.SelectionMode = SelectionMode.MultiExtended;
             listenListBox.SelectionMode = SelectionMode.MultiExtended;
             listBoxCmd.SelectionMode = SelectionMode.MultiExtended;
 
-            // ListBoxFound için owner-draw modu
             listBoxFound.DrawMode = DrawMode.OwnerDrawFixed;
             listBoxFound.DrawItem += ListBoxFound_DrawItem!;
 
-            // Event handler'larý ekle
             listBoxFound.KeyDown += ListBoxFound_KeyDown!;
             listBoxFound.MouseDown += ListBoxFound_MouseDown!;
 
@@ -67,7 +64,7 @@ namespace CommandLord
         {
             if (isListening) StopListening();
             else if (!checkBoxAllApps.Checked && listenListBox.Items.Count == 0)
-                MessageBox.Show("Liste boþ! Bir process ekleyin veya All Apps iþaretleyin.");
+                MessageBox.Show("List is empty! Add a process or check All Apps.");
             else
                 StartListening();
         }
@@ -78,7 +75,7 @@ namespace CommandLord
             if (!string.IsNullOrEmpty(text) && !listenListBox.Items.Contains(text))
                 listenListBox.Items.Add(text);
             else
-                MessageBox.Show("Boþ veya zaten ekli!");
+                MessageBox.Show("Empty or already added!");
         }
 
         private void checkBoxAllApps_CheckedChanged(object sender, EventArgs e)
@@ -110,13 +107,11 @@ namespace CommandLord
 
         private void buttonAllClear_Click(object sender, EventArgs e)
         {
-            // Listening aktifse durdur
             if (isListening)
             {
                 StopListening();
             }
 
-            // Listeleri ve textBox'larý temizle
             listenListBox.Items.Clear();
             listBoxFound.Items.Clear();
             listBoxCmd.Items.Clear();
@@ -124,7 +119,6 @@ namespace CommandLord
             textBoxListen.Clear();
             textBoxSearch.Clear();
 
-            // Checkbox ve butonlarý resetle
             checkBoxAllApps.Checked = false;
             checkBoxKill.Checked = false;
             checkBoxKillAndRun.Checked = false;
@@ -311,7 +305,6 @@ namespace CommandLord
             UpdateListBox();
         }
 
-        // ListBoxFound için özel çizim - Manuel eklenenler turuncu
         private void ListBoxFound_DrawItem(object? sender, DrawItemEventArgs e)
         {
             if (e.Index < 0) return;
@@ -359,7 +352,6 @@ namespace CommandLord
             }
         }
 
-        // ListenListBox için KeyDown - YENÝ
         private void ListenListBox_KeyDown(object? sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
@@ -368,7 +360,6 @@ namespace CommandLord
             }
         }
 
-        // ListBoxCmd için KeyDown - YENÝ
         private void ListBoxCmd_KeyDown(object? sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
@@ -377,26 +368,22 @@ namespace CommandLord
             }
         }
 
-        // ListenListBox'tan seçili itemleri sil - YENÝ
         private void DeleteSelectedListenItems()
         {
             if (listenListBox.SelectedItems.Count == 0)
                 return;
 
-            // Seçili itemleri topla (geriye doðru sil)
             for (int i = listenListBox.SelectedIndices.Count - 1; i >= 0; i--)
             {
                 listenListBox.Items.RemoveAt(listenListBox.SelectedIndices[i]);
             }
         }
 
-        // ListBoxCmd'den seçili itemleri sil - YENÝ
         private void DeleteSelectedCmdItems()
         {
             if (listBoxCmd.SelectedItems.Count == 0)
                 return;
 
-            // Seçili itemleri topla (geriye doðru sil)
             for (int i = listBoxCmd.SelectedIndices.Count - 1; i >= 0; i--)
             {
                 listBoxCmd.Items.RemoveAt(listBoxCmd.SelectedIndices[i]);
@@ -453,7 +440,7 @@ namespace CommandLord
             foreach (var item in itemsToRemove)
             {
                 allFoundCommands.Remove(item);
-                manuallyAddedCommands.Remove(item); // Manuel eklenenleri de temizle
+                manuallyAddedCommands.Remove(item);
             }
 
             UpdateListBox();
@@ -463,13 +450,13 @@ namespace CommandLord
         {
             if (listBoxFound.SelectedItems.Count == 0)
             {
-                MessageBox.Show("Seçili item yok!");
+                MessageBox.Show("No item selected!");
                 return;
             }
 
             if (listBoxCmd.Items.Count == 0)
             {
-                MessageBox.Show("CMD listesi boþ! Önce komut ekleyin.");
+                MessageBox.Show("CMD list is empty! Add a command first.");
                 return;
             }
 
@@ -483,7 +470,7 @@ namespace CommandLord
 
                 if (string.IsNullOrWhiteSpace(arguments))
                 {
-                    MessageBox.Show($"Argüman bulunamadý: {fullCommand}");
+                    MessageBox.Show($"No arguments found: {fullCommand}");
                     continue;
                 }
 
@@ -507,7 +494,7 @@ namespace CommandLord
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Çalýþtýrma hatasý: {ex.Message}");
+                        MessageBox.Show($"Execution error: {ex.Message}");
                     }
                 }
             }
@@ -550,7 +537,7 @@ namespace CommandLord
             if (!string.IsNullOrEmpty(text) && !listBoxCmd.Items.Contains(text))
                 listBoxCmd.Items.Add(text);
             else
-                MessageBox.Show("Boþ veya zaten ekli!");
+                MessageBox.Show("Empty or already added!");
         }
 
         private void listBoxCmd_SelectedIndexChanged(object sender, EventArgs e)
@@ -563,7 +550,7 @@ namespace CommandLord
             UpdateListBox();
         }
 
-        private string? lastAddedManually = null; // en son eklenen manuel item
+        private string? lastAddedManually = null;
 
         private void buttonAddListFound_Click(object sender, EventArgs e)
         {
@@ -571,20 +558,20 @@ namespace CommandLord
 
             if (string.IsNullOrEmpty(text))
             {
-                MessageBox.Show("TextBox boþ!");
+                MessageBox.Show("TextBox is empty!");
                 return;
             }
 
             if (listBoxFound.Items.Cast<object>().Any(i => i?.ToString() == text))
             {
-                MessageBox.Show("Bu deðer zaten List Found'da var!");
+                MessageBox.Show("This value already exists in List Found!");
                 return;
             }
 
             allFoundCommands.Add(text);
             manuallyAddedCommands.Add(text);
 
-            lastAddedManually = text; // en son eklenen olarak iþaretle
+            lastAddedManually = text;
 
             UpdateListBox();
         }
