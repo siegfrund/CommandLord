@@ -58,7 +58,7 @@ namespace CommandLord
             buttonAddListFound = new Button();
             label6 = new Label();
             buttonHide = new Button();
-            label7 = new Label();
+            labelCopyRight = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -325,16 +325,16 @@ namespace CommandLord
             buttonHide.UseVisualStyleBackColor = false;
             buttonHide.Click += buttonHide_Click;
             // 
-            // label7
+            // labelCopyRight
             // 
-            label7.AutoSize = true;
-            label7.Font = new System.Drawing.Font("Segoe UI", 7F);
-            label7.ForeColor = Color.White;
-            label7.Location = new Point(12, 500);
-            label7.Name = "label7";
-            label7.Size = new Size(1011, 12);
-            label7.TabIndex = 22;
-            label7.Text = resources.GetString("label7.Text");
+            labelCopyRight.AutoSize = true;
+            labelCopyRight.Font = new System.Drawing.Font("Segoe UI", 7F);
+            labelCopyRight.ForeColor = Color.White;
+            labelCopyRight.Location = new Point(12, 500);
+            labelCopyRight.Name = "labelCopyRight";
+            labelCopyRight.Size = new Size(1011, 12);
+            labelCopyRight.TabIndex = 22;
+            labelCopyRight.Text = resources.GetString("labelCopyRight.Text");
             // 
             // CommandLord
             // 
@@ -343,7 +343,7 @@ namespace CommandLord
             AutoSize = true;
             BackColor = Color.FromArgb(54, 54, 54);
             ClientSize = new Size(1037, 531);
-            Controls.Add(label7);
+            Controls.Add(labelCopyRight);
             Controls.Add(buttonHide);
             Controls.Add(label6);
             Controls.Add(buttonAddListFound);
@@ -404,6 +404,6 @@ namespace CommandLord
         private Button buttonAddListFound;
         private Label label6;
         private Button buttonHide;
-        private Label label7;
+        private Label labelCopyRight;
     }
 }
